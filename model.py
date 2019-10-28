@@ -36,7 +36,7 @@ class Movie(db.Model):
     imdb_url = db.Column(db.String(100), nullable=False)
 
 class Rating(db.Model):
-    """Ratings of ratings website."""
+    """Ratings of ratings website. """
 
     __tablename__ = "ratings"
 
