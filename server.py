@@ -81,16 +81,16 @@ def handle_login():
     email = request.form['email']
     password = request.form['password']
 
-    q = User.query
+    q = User.query.filter(User.email == email, User.password == password).first()
 
 
-    if q.filter(User.email == email, User.password == password).first():
-        logged_in = q(User.user_id).filter(User.email == email, User.password == password).first()
-        session['curent user_id'] = logged_in
+    if q:
+        
+        session['curent user_id'] = q.user_id
         flash("Logged in")
         return redirect("/")
 
-        
+
 
 
 if __name__ == "__main__":
