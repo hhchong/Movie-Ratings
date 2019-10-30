@@ -31,9 +31,67 @@ def show_movies():
     return render_template("movies.html")
 
 @app.route('/users')
-def show_users():
+def user_list():
+    """Show list of users."""
     
-    return render_template("users.html")
+    users = User.query.all()
+    return render_template("user_list.html",
+                            users=users)
+
+@app.route("/register", methods=['GET'])
+def registration_form():
+
+    email = request.args.get("email")
+    password = request.args.get("password")
+    return render_template("register_form.html",
+                            email=email,
+                            password=password)
+
+@app.route("/register", methods=["POST"])
+def registration_process():
+
+    email = request.form["email"]
+    password = request.form["password"]
+
+    if User.query.filter(User.email == email).first():
+        return redirect("/")
+    else:
+        #create new user in database\
+        #redirect
+        user = User(email=email,
+                    password=password)
+        db.session.add(user)
+        
+        db.session.commit()
+
+    return redirect("/")
+
+@app.route("/login", methods=['GET'])
+def login_form():
+
+    email = request.args.get("email")
+    password = request.args.get("password")
+    return render_template("login_form.html",
+                            email=email,
+                            password=password)
+
+@app.route("/login", methods=['POST'])
+def handle_login():
+
+    email = request.form['email']
+    password = request.form['password']
+
+    q = User.query
+
+
+    if q.filter(User.email == email, User.password == password).first():
+        logged_in = q(User.user_id).filter(User.email == email, User.password == password).first()
+        session['curent user_id'] = logged_in
+        flash("Logged in")
+        return redirect("/")
+
+        
+
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
