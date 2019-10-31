@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
+{% extends 'base.html' %}
+{% block content %}
+
     <title>Login</title>
-    {% for message in get_flashed_messages() %}
-        <li>{{ message }}</li>
-    {% endfor %}
-</head>
-<body>
+
     <form action="/login" method="POST">
         Email <input type="text" name="email"><br>
         Password <input type="text" name="password"><br>
         <input type="submit">
     </form>
-</body>
-</html>
+{% endblock %}

@@ -88,8 +88,10 @@ def handle_login():
         
         session['curent user_id'] = q.user_id
         flash("Logged in")
-        return redirect("/")
+    
+    return redirect("/")
 
+@app.route("/users/<int:user.user_id>")
 
 
 
